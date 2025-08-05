@@ -1,76 +1,76 @@
-import tkinter as tk
 import random
+import tkinter as tk
+from tkinter import messagebox
 
-# Import data from submodules
-from data.operators import Operators
-from data.trains import Waterline_t, Connect_t, AirLink_t, Metro_t, Express_t
-from data.stations_by_op import Connect_S, AirLink_S, Waterline_S, Metro_S, Express_S
+from data.operators import operators
+from data.trains import connect_t, waterline_t, airlink_t, metro_t, express_t
+from data.stations_by_op import connect_s, waterline_s, airlink_s, metro_s, express_s
 
-# Mapping for operator data
+# Mapping operator names to trains and stations
 train_map = {
-    "Waterline": Waterline_t,
-    "Connect": Connect_t,
-    "AirLink": AirLink_t,
-    "Metro": Metro_t,
-    "Express": Express_t
+    "connect": connect_t,
+    "waterline": waterline_t,
+    "airlink": airlink_t,
+    "metro": metro_t,
+    "express": express_t,
 }
 
 station_map = {
-    "Waterline": Waterline_S,
-    "Connect": Connect_S,
-    "AirLink": AirLink_S,
-    "Metro": Metro_S,
-    "Express": Express_S
+    "connect": connect_s,
+    "waterline": waterline_s,
+    "airlink": airlink_s,
+    "metro": metro_s,
+    "express": express_s,
 }
 
-class RandomizerGUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Train Journey Generator")
-        self.root.geometry("500x400")
+def generate_random():
+    selected = operator_var.get()
+    if not selected:
+        messagebox.showwarning("No Operator", "Please select an operator.")
+        return
 
-        tk.Label(root, text="Select an Operator", font=("Helvetica", 14)).pack(pady=10)
+    trains = train_map.get(selected)
+    stations = station_map.get(selected)
 
-        self.selected_operator = tk.StringVar(value="")
+    if not trains or not stations:
+        messagebox.showerror("Missing Data", f"No data found for '{selected}'.")
+        return
+    if len(stations) < 2:
+        messagebox.showerror("Station Error", "Need at least 2 stations.")
+        return
 
-        for op in Operators:
-            tk.Radiobutton(root, text=op, variable=self.selected_operator, value=op).pack(anchor="w", padx=20)
+    train = random.choice(trains)
+    start, end = random.sample(stations, 2)
 
-        tk.Button(root, text="Generate Journey", command=self.generate).pack(pady=20)
+    result = f"Operator: {selected.capitalize()}\nTrain: {train}\nRoute: {start} → {end}"
+    result_label.config(text=result)
 
-        self.operator_label = tk.Label(root, text="", font=("Helvetica", 12))
-        self.operator_label.pack()
-        self.train_label = tk.Label(root, text="", font=("Helvetica", 12))
-        self.train_label.pack()
-        self.route_label = tk.Label(root, text="", font=("Helvetica", 12))
-        self.route_label.pack()
+# GUI
+root = tk.Tk()
+root.title("SCR Train Randomizer")
+root.geometry("400x300")
 
-    def generate(self):
-        op = self.selected_operator.get()
+tk.Label(root, text="Select Operator", font=("Arial", 14)).pack(pady=10)
 
-        if not op:
-            self.operator_label.config(text="❌ Please select an operator")
-            self.train_label.config(text="")
-            self.route_label.config(text="")
-            return
+operator_var = tk.StringVar()
 
-        trains = train_map.get(op, [])
-        stations = station_map.get(op, [])
+for op in operators:
+    tk.Radiobutton(
+        root,
+        text=op.capitalize(),
+        variable=operator_var,
+        value=op,
+        font=("Arial", 12)
+    ).pack(anchor="w", padx=30)
 
-        if not trains or not stations:
-            self.operator_label.config(text=f"⚠️ Missing data for {op}")
-            self.train_label.config(text="")
-            self.route_label.config(text="")
-            return
+tk.Button(
+    root,
+    text="Generate Random Route",
+    command=generate_random,
+    font=("Arial", 12)
+).pack(pady=20)
 
-        train = random.choice(trains)
-        station1, station2 = random.sample(stations, 2) if len(stations) >= 2 else (stations[0], stations[0])
+result_label = tk.Label(root, text="", font=("Arial", 12), wraplength=350, justify="left")
+result_label.pack()
 
-        self.operator_label.config(text=f"Operator: {op}")
-        self.train_label.config(text=f"Train: {train}")
-        self.route_label.config(text=f"From {station1} → To {station2}")
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = RandomizerGUI(root)
-    root.mainloop()
+root.mainloop()
