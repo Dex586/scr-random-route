@@ -1,2 +1,1 @@
-
-Operators = ["Metro","Airlink","Express","Connect","Waterline"]
+operators = ["metro","airlink","express","connect","waterline"]
