@@ -18,6 +18,12 @@ This project is a simple desktop application that allows users to generate a ran
 
 ### Running the Application
 
+1. Download the [latest release](https://github.com/Dex586/scr-random-route/releases)
+2. Run the file "SCR.randomizer.exe"
+
+   Or
+
+   
 1.  **Clone the repository:**
     ```bash
     git clonehttps://github.com/Dex586/scr-random-route
