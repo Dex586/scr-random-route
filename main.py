@@ -48,7 +48,7 @@ def generate_random():
 # GUI
 root = tk.Tk()
 root.title("SCR Train Randomizer")
-root.geometry("400x300")
+root.geometry("600x400")
 
 tk.Label(root, text="Select Operator", font=("Arial", 14)).pack(pady=10)
 
@@ -72,5 +72,6 @@ tk.Button(
 
 result_label = tk.Label(root, text="", font=("Arial", 12), wraplength=350, justify="left")
 result_label.pack()
+
 
 root.mainloop()
