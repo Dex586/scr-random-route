@@ -20,7 +20,7 @@ This project is a simple desktop application that allows users to generate a ran
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository-url>
+    git clonehttps://github.com/Dex586/scr-random-route
     cd scr-random-route
     ```
 
