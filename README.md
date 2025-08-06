@@ -47,4 +47,3 @@ This project is a simple desktop application that allows users to generate a ran
 -   **`data/operators.py`**: Contains a list of the available train operators in SCR.
 -   **`data/stations_by_op.py`**: Defines the stations served by each train operator.
 -   **`data/trains.py`**: Lists the trains available for each operator.
--   **`README.md`**: This file, providing an overview of the project.
